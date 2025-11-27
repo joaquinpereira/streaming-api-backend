@@ -17,9 +17,22 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        $this->call([
+            RoleSeeder::class,
+            CategorySeeder::class,
+            MovieSeeder::class,
+            SeriesSeeder::class,
+            PlanSeeder::class,
+            PromoCodeSeeder::class,
+            SubscriptionSeeder::class,
+        ]);
+
+        $clientRole = \App\Models\Role::where('name', 'Cliente')->first();
+
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'role_id' => $clientRole?->id,
         ]);
     }
 }
