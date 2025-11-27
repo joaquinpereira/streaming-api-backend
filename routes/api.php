@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\User\UserController;
 
 // Agrupación para la versión 1 de la API (/api/v1)
 Route::prefix('v1')->group(function () {
@@ -22,6 +23,14 @@ Route::prefix('v1')->group(function () {
         // Perfil de usuario autenticado 
         Route::get('user/profile', function (Request $request) {
             return response()->json($request->user());
+        });
+
+        // Endpoints CRUD de Gestión de Usuarios (Tarea 1.3)
+        // Usaremos Resource Controllers que mapean a index, show, store, update, destroy
+        // ** PROTEGIDO: SOLO ACCESO PARA ADMIN **
+        Route::middleware('role:admin')->group(function () { // <-- Uso del alias 'role:admin'
+            // Usaremos Resource Controllers que mapean a index, show, store, update, destroy
+            Route::apiResource('users', UserController::class);
         });
 
     });
